@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Button from '../Button';
-import Toast from '../Toast';
 import ToastShelf from '../ToastShelf';
+import { ToastContext } from '../ToastProvider';
 
 import styles from './ToastPlayground.module.css';
 
@@ -11,24 +11,8 @@ const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-  const [toasts, setToasts] = React.useState([]);
 
-  function handleAddToast(variant, message) {
-    const newToast = {
-      variant,
-      message,
-      id: crypto.randomUUID(),
-    };
-
-    const nextToasts = [...toasts, newToast];
-
-    setToasts(nextToasts);
-  }
-
-  function handleRemoveToast(id) {
-    const nextToasts = toasts.filter((toast) => toast.id !== id);
-    setToasts(nextToasts);
-  }
+  const { addToast } = React.useContext(ToastContext);
 
   return (
     <div className={styles.wrapper}>
@@ -37,13 +21,13 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toasts} handleRemoveToast={handleRemoveToast} />
+      <ToastShelf />
 
       <form
         className={styles.controlsWrapper}
         onSubmit={(event) => {
           event.preventDefault();
-          handleAddToast(variant, message);
+          addToast(variant, message);
           setVariant(VARIANT_OPTIONS[0]);
           setMessage('');
         }}
