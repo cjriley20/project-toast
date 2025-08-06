@@ -18,7 +18,7 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast({ variant, handleClose, children }) {
+function Toast({ variant, id, children }) {
   if (!ICONS_BY_VARIANT.hasOwnProperty(variant)) {
     throw new Error(`Unrecognized variant: ${variant}`);
   }
@@ -31,7 +31,7 @@ function Toast({ variant, handleClose, children }) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={handleClose}>
+      <button className={styles.closeButton}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
